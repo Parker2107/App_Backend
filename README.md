@@ -12,7 +12,7 @@ While registering, if the user enters "\_admin\_" anywhere in their username, th
 
 1. Registration Number (Unique)
 2. Name
-3. Email
+3. Email (Unique)
 4. Hostel
 5. Block
 6. Phone Number
