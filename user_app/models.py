@@ -6,6 +6,7 @@ class userProfile(models.Model):
     email = models.EmailField(max_length=254, unique=True)
     hostel = models.CharField(max_length=5)
     block = models.CharField(max_length=5)
+    room_no = models.CharField(max_length=5)
     number = models.CharField(max_length=15, unique=True)
     admin = models.BooleanField(default=False)
     
