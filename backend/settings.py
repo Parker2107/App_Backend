@@ -57,7 +57,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 CORS_ALLOWED_ORIGINS = [
-    '', #Include frontend URL here
+    #Include frontend URL here
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
@@ -88,12 +88,24 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASE_URL = os.getenv('DATABASE_URL')
 
+"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'xRg4aevyBCrz8hYK',
+        'HOST': 'aws-0-ap-south-1.pooler.supabase.com',
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',  # Enforce SSL for security
+        },
+    }
+}
+"""
 if DATABASE_URL:
     DATABASES = {
-        'default': dj_database_url.config(
-            default=DATABASE_URL,
-            conn_max_age=600  # Keep DB connections open for performance
-        )
+        'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
     }
 else:
     # Fallback to SQLite for local development
