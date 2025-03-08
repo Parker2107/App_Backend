@@ -4,7 +4,9 @@ from rest_framework import status
 from .forms import NSForm
 from .models import userProfile, formData
 from .serializers import userProfileSerializer, FormDataSerializer, userOutputSerializer
+from .utils import api_key_required
 
+@api_key_required
 @api_view(['GET', 'POST'])
 def indexAll(request):
     if request.method == 'GET':
@@ -19,6 +21,7 @@ def indexAll(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_key_required
 @api_view(['GET'])
 def check(request,user_id):
     if request.method == 'GET':
@@ -26,15 +29,15 @@ def check(request,user_id):
             user = userProfile.objects.get(regno=user_id)
         except:
             return Response({'error': 'Registration Number not found, Invalid User'}, status=status.HTTP_404_NOT_FOUND)
-        serializer = userProfileSerializer(user)
+        serializer = userOutputSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-
+@api_key_required
 @api_view(['GET', 'DELETE'])
 def deleteID(request, user_id):
     if request.method == 'GET':
         users = userProfile.objects.get(regno=user_id)
-        serializer = userProfileSerializer(users)
+        serializer = userOutputSerializer(users)
         return Response(serializer.data)
     
     elif request.method == 'DELETE':
@@ -42,17 +45,19 @@ def deleteID(request, user_id):
         user.delete()
         return Response({'message': f'{user_id} Profile deleted'}, status=status.HTTP_204_NO_CONTENT)
 
+@api_key_required
 @api_view(['GET', 'DELETE'])
 def delete(request):
     if request.method == 'GET':
         users = userProfile.objects.all()
-        serializer = userProfileSerializer(users, many=True)
+        serializer = userOutputSerializer(users, many=True)
         return Response(serializer.data)
     
     elif request.method == 'DELETE':
         userProfile.objects.all().delete()
         return Response({'message': 'All profiles deleted'}, status=status.HTTP_204_NO_CONTENT)
 
+@api_key_required
 @api_view(['GET', 'PUT', 'PATCH'])
 def edit(request, user_id):
     if request.method == 'GET':
@@ -92,6 +97,7 @@ def edit(request, user_id):
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+@api_key_required
 @api_view(['GET', 'POST'])
 def formUpload(request):
     if request.method == "POST":
