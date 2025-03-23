@@ -1,25 +1,36 @@
 from rest_framework import serializers
-from .models import Attendance, Student
+from rest_framework import serializers
+from .models import SheetList, AttendanceRecord
 
-class StudentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Student
-        fields = ['reg_no', 'name']
-
-class AttendanceSerializer(serializers.ModelSerializer):
-    student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())  # Use student ID instead of reg_no
+class SheetListSerializer(serializers.ModelSerializer):
+    """Serializes sheet metadata (name and event date)."""
+    event_date = serializers.DateField()
 
     class Meta:
-        model = Attendance
-        fields = ['student', 'date', 'status']
+        model = SheetList
+        fields = ['sheet_name', 'upload_date', 'event_date']
 
-    def validate(self, data):
-        """ Ensure a student does not have duplicate attendance for the same date """
-        student = data.get('student')
-        date = data.get('date')
+class AttendanceRecordSerializer(serializers.ModelSerializer):
+    """Serializes attendance data linked to a sheet."""
+    class Meta:
+        model = AttendanceRecord
+        fields = ['ParticipantId', 'ParticipantName', 'SessionAttended', 'sheet']
 
-        if Attendance.objects.filter(student=student, date=date).exists():
-            raise serializers.ValidationError({"error": "Attendance for this student on this date already exists."})
+    def validate_SessionAttended(self, value):
+        """Ensure the attendance status is either 'P' (Present) or 'A' (Absent)."""
+        if value not in ['P', 'A']:
+            raise serializers.ValidationError("SessionAttended must be 'P' or 'A'.")
+        return value
 
-        return data
+class AttendanceUpdateSerializer(serializers.ModelSerializer):
+    """Serializer to validate and update attendance records."""
+    
+    class Meta:
+        model = AttendanceRecord
+        fields = ["ParticipantId", "ParticipantName", "SessionAttended"]
 
+    def update(self, instance, validated_data):
+        """Update an existing attendance record."""
+        instance.SessionAttended = validated_data.get("SessionAttended", instance.SessionAttended)
+        instance.save()
+        return instance

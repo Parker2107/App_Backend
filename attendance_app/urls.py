@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import upload_excel, delete_sheet
+from .views import upload_sheet, delete_sheet, update_attendance
 
 urlpatterns = [
-    path('upload-excel/', upload_excel, name='upload_excel'),  # Upload attendance via Excel
-    path('delete-sheet/', delete_sheet, name='delete_sheet'),  # Delete attendance records by sheet name
+    path('upload_sheet/', upload_sheet, name='upload_excel'),
+    path('delete_sheet/', delete_sheet, name='delete_sheet'),
+    path('edit_attendance/', update_attendance, name='edit_attendance')
 ]

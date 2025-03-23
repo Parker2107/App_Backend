@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from django.http import JsonResponse
+from rest_framework import status
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -90,9 +92,12 @@ DATABASE_URL = os.getenv('DATABASE_URL')
 API_KEY = os.getenv('API_KEY')
 
 if DATABASE_URL:
-    DATABASES = {
-        'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
-    }
+    try:
+        DATABASES = {
+            'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
+        }
+    except:
+        JsonResponse({"Error": "NO DATABASE"}, status=status.HTTP_404_NOT_FOUND)
 else:
     DATABASES = {
         'default': {

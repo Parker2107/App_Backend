@@ -62,6 +62,43 @@ curl -X POST http://127.0.0.1:8000/upload -H "Content-Type: application/json" -d
 
 curl -X GET http://127.0.0.1:8000/upload -H "Content-Type: application/json"
 
+### Recieve list of all registered students in an event
+
+curl -X GET http://127.0.0.1:8000/upload_sheet/?api_key=API_KEY&sheet_name=Workshop_A
+
+### Upload data of all registered students in an event
+
+curl -X POST "http://127.0.0.1:8000/upload_sheet/" \
+ -H "api_key: API_KEY" \
+ -F "file=@/Users/yourname/Documents/attendance.xlsx" \
+ -F "sheet_name=Spring_Seminar" \
+ -F "event_date=2025-03-23"
+
+### Delete a specific sheet
+
+curl -X DELETE "http://127.0.0.1:8000/delete_sheet/?api_key=API_KEY&sheet_name=EVENT_NAME"
+
+### Edit the attendance status from an event
+
+curl -X PATCH "http://127.0.0.1:8000/api/update_attendance/" \
+     -H "Content-Type: application/json" \
+     -H "api_key: API_KEY" \
+     -d '{
+            "sheet_name": "Spring_Seminar",
+            "records": [
+                {
+                    "ParticipantId": "12345",
+                    "ParticipantName": "John Doe",
+                    "SessionAttended": "A"
+                },
+                {
+                    "ParticipantId": "67890",
+                    "ParticipantName": "Jane Smith",
+                    "SessionAttended": "A"
+                }
+            ]
+        }'
+By default, all the attendance for every person is P in the dB, **Only send the people's attendance that are A**.
 ## Reset migrations
 
 1. Change the model in models.py
