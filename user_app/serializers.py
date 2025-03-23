@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import userProfile, formData
 import os
-key = os.getenv('ADMIN_KEY')
+key = os.getenv("ADMIN_KEY", '_admin_')
 
 class userOutputSerializer(serializers.ModelSerializer):
     class Meta:
