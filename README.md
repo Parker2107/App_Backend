@@ -4,7 +4,7 @@
 
 This repo contains the User and Admin side Backend that is to be used for the application. The user, when first entering, will register using their google account / whatever the frontend seems fit and the Backend will recieve the userProfile in one json call.
 
-While registering, if the user enters "\_admin\_" anywhere in their username, they will be marked as admin and during Login the next time, they will be able to login using only Admin login.
+While registering, if the user enters ADMIN_KEY from env anywhere in their username, they will be marked as admin and during Login the next time, they will be able to login using only Admin login.
 
 ## DataBase Formats
 
