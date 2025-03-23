@@ -75,4 +75,4 @@ curl -X GET http://127.0.0.1:8000/upload -H "Content-Type: application/json"
 ## TODO
 
 1. Automatically Delete the NightSlip form data at Midnight
-2.
+2. Export the NS form data
