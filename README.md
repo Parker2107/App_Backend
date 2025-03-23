@@ -81,26 +81,27 @@ curl -X DELETE "http://127.0.0.1:8000/delete_sheet/?api_key=API_KEY&sheet_name=E
 ### Edit the attendance status from an event
 
 curl -X PATCH "http://127.0.0.1:8000/api/update_attendance/" \
-     -H "Content-Type: application/json" \
-     -H "api_key: API_KEY" \
-     -d '{
+	-H "Content-Type: application/json" \
+	-H "api_key: API_KEY" \
+	-d '{
             "sheet_name": "Spring_Seminar",
             "records": [
-                {
-                    "ParticipantId": "12345",
-                    "ParticipantName": "John Doe",
-                    "SessionAttended": "A"
-                },
-                {
-                    "ParticipantId": "67890",
-                    "ParticipantName": "Jane Smith",
-                    "SessionAttended": "A"
-                }
-            ]
+				{
+					"ParticipantId": "12345",
+					"ParticipantName": "John Doe",
+					"SessionAttended": "A"
+				},
+				{
+					"ParticipantId": "67890",
+					"ParticipantName": "Jane Smith",
+					"SessionAttended": "A"
+				}
+			]
         }'
 
         
 By default, all the attendance for every person is P in the dB, **Only send the people's attendance that are A**.
+
 ## Reset migrations
 
 1. Change the model in models.py
@@ -113,5 +114,7 @@ By default, all the attendance for every person is P in the dB, **Only send the 
 
 ## TODO
 
-1. Automatically Delete the NightSlip form data at Midnight
-2. Export the NS form data
+1. Create a table for storing list of NS forms.
+2. Make a cascading key attribute in the NS model for connecting the rows to their respective NS.
+3. Setup a timer system that does not allow the user to send requests to the dB after 4:00 PM
+4. find better alternatives for Supabase to host the dB
