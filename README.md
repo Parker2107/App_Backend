@@ -98,6 +98,8 @@ curl -X PATCH "http://127.0.0.1:8000/api/update_attendance/" \
                 }
             ]
         }'
+
+        
 By default, all the attendance for every person is P in the dB, **Only send the people's attendance that are A**.
 ## Reset migrations
 
