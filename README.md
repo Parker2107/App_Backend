@@ -15,8 +15,9 @@ While registering, if the user enters "\_admin\_" anywhere in their username, th
 3. Email (Unique)
 4. Hostel
 5. Block
-6. Phone Number
-7. Admin (Boolean)
+6. Room
+7. Phone Number
+8. Admin (Boolean)
 
 ### Form Data
 
