@@ -8,7 +8,7 @@ from .models import SheetList, AttendanceRecord
 from .serializers import SheetListSerializer, AttendanceRecordSerializer, AttendanceUpdateSerializer
 
 @csrf_exempt
-@api_view(['POST'])
+@api_view(['POST','GET'])
 @api_key_required
 def upload_sheet(request):
     """Handles Excel file upload, ensures unique sheet name, parses data, and stores it in the database."""
