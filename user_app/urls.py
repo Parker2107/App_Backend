@@ -8,6 +8,7 @@ urlpatterns = [
     path("delete/<str:user_id>",views.deleteID, name="delete"),
     path("delete",views.delete, name="delete"),
     path("edit/<str:user_id>", views.edit, name="edit"),
-    path("upload", views.formUpload, name="form"),
+    path("upload-form", views.formUpload, name="form"),
+    path("get-form/<str:name>",views.getNSForm, name="getNSForm"),
     path("keep-alive/", views.keep_alive, name="keep_alive")
 ]
