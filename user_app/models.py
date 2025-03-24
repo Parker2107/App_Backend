@@ -21,7 +21,7 @@ class formList(models.Model):
         return self.form_name
 
 class formData(models.Model):
-    regno = models.CharField(max_length=9, unique=True)
+    regno = models.CharField(max_length=9)
     name = models.CharField(max_length=50)
     domain = models.TextField()
     NS = models.ForeignKey(formList, on_delete=models.CASCADE, related_name="NS_form_key", default=0)

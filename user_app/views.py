@@ -14,8 +14,8 @@ def keep_alive(request):
         cursor.execute("SELECT 1")
     return JsonResponse({"status": "ok"}, status=status.HTTP_200_OK)
 
-@api_key_required
 @api_view(['GET', 'POST'])
+@api_key_required
 def indexAll(request):
     if request.method == 'GET':
         users = userProfile.objects.all()
