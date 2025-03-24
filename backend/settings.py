@@ -88,11 +88,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASE_URL = os.getenv('DATABASE_URL')
+DATABASE_URL = os.getenv('DATABASE_URL') #"postgresql://postgres.kaqiexdpbngshanuxidz:xRg4aevyBCrz8hYK@aws-0-ap-south-1.pooler.supabase.com:5432/postgres"
 API_KEY = os.getenv('API_KEY')
 
 if DATABASE_URL:
     try:
+        print(DATABASE_URL)
         DATABASES = {
             'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
         }

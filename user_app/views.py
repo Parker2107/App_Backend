@@ -1,10 +1,17 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from django.http import JsonResponse
+from django.db import connection
 from .forms import NSForm
 from .models import userProfile, formData
 from .serializers import userProfileSerializer, FormDataSerializer, userOutputSerializer
 from .utils import api_key_required
+
+def keep_alive(request):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT 1")
+    return JsonResponse({"status": "ok"}, status=status.HTTP_200_OK)
 
 @api_key_required
 @api_view(['GET', 'POST'])

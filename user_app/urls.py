@@ -9,4 +9,5 @@ urlpatterns = [
     path("delete",views.delete, name="delete"),
     path("edit/<str:user_id>", views.edit, name="edit"),
     path("upload", views.formUpload, name="form"),
+    path("keep-alive/", views.keep_alive, name="keep_alive")
 ]
