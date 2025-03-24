@@ -7,7 +7,7 @@ from .forms import NSForm
 from .models import userProfile, formData, formList
 from .serializers import userProfileSerializer, FormDataSerializer, userOutputSerializer, FormListSerializer
 from .utils import api_key_required
-import datetime
+from datetime import datetime
 
 def keep_alive(request):
     with connection.cursor() as cursor:
