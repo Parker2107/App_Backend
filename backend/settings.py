@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-# "postgresql://postgres.kaqiexdpbngshanuxidz:xRg4aevyBCrz8hYK@aws-0-ap-south-1.pooler.supabase.com:5432/postgres"
+
 DATABASE_URL = os.getenv('DATABASE_URL')
 API_KEY = os.getenv('API_KEY')
 
