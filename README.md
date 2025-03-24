@@ -57,19 +57,23 @@ curl -X PATCH http://127.0.0.1:8000/edit/ **_Registration Number_** -H "Content-
 
 ### Upload Form submission by a student
 
-curl -X POST http://127.0.0.1:8000/upload -H "Content-Type: application/json" -d '**_Enter JSON Format here_**'
+curl -X POST http://127.0.0.1:8000/upload-form/ -H "Content-Type: application/json" -d '**_Enter JSON Format here_**'
 
 ### Recieve list of all Form submissions
 
-curl -X GET http://127.0.0.1:8000/upload -H "Content-Type: application/json"
+curl -X GET http://127.0.0.1:8000/upload-form/ -H "Content-Type: application/json"
+
+### Recieve list of students for one specific NS Form
+
+TODO
 
 ### Recieve list of all registered students in an event
 
-curl -X GET http://127.0.0.1:8000/upload_sheet/?api_key=API_KEY&sheet_name=Workshop_A
+curl -X GET http://127.0.0.1:8000/upload-sheet/?api_key=API_KEY&sheet_name=Workshop_A
 
 ### Upload data of all registered students in an event
 
-curl -X POST "http://127.0.0.1:8000/upload_sheet/" \
+curl -X POST "http://127.0.0.1:8000/upload-sheet/" \
  -H "api_key: API_KEY" \
  -F "file=@/Users/yourname/Documents/attendance.xlsx" \
  -F "sheet_name=Spring_Seminar" \
@@ -77,11 +81,11 @@ curl -X POST "http://127.0.0.1:8000/upload_sheet/" \
 
 ### Delete a specific sheet
 
-curl -X DELETE "http://127.0.0.1:8000/delete_sheet/?api_key=API_KEY&sheet_name=EVENT_NAME"
+curl -X DELETE "http://127.0.0.1:8000/delete-sheet/?api_key=API_KEY&sheet_name=EVENT_NAME"
 
 ### Edit the attendance status from an event
 
-curl -X PATCH "http://127.0.0.1:8000/api/update_attendance/" \
+curl -X PATCH "http://127.0.0.1:8000/api/edit-attendance/" \
 	-H "Content-Type: application/json" \
 	-H "api_key: API_KEY" \
 	-d '{
@@ -116,3 +120,4 @@ By default, all the attendance for every person is P in the dB, **Only send the 
 ## TODO
 
 4. find better alternatives for Supabase to host the dB
+5. Setup getNSForm function in views.py
