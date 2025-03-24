@@ -7,7 +7,10 @@ from .forms import NSForm
 from .models import userProfile, formData, formList
 from .serializers import userProfileSerializer, FormDataSerializer, userOutputSerializer, FormListSerializer
 from .utils import api_key_required
-from datetime import datetime
+from datetime import datetime, time
+import pytz
+
+last_time = time(hour=16, minute=0, second=0)
 
 def keep_alive(request):
     with connection.cursor() as cursor:
@@ -123,10 +126,14 @@ def create_new_form():
 @api_view(['GET', 'POST'])
 def formUpload(request):
     if request.method == "POST":
-        
         data_c = request.data.copy()
         latest_form = formList.objects.order_by('-form_date').first()
         today = datetime.now().date()
+        ist = pytz.timezone('Asia/Kolkata')
+        time = datetime.now(tz=ist).time()
+        
+        if time>last_time:
+            return Response({"message": "Deadline for applying to NS is over"}, status=status.HTTP_401_UNAUTHORIZED)
         
         if latest_form:
             form_date = latest_form.form_date.date()  # Extract only the date part

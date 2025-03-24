@@ -115,7 +115,4 @@ By default, all the attendance for every person is P in the dB, **Only send the 
 
 ## TODO
 
-1. Create a table for storing list of NS forms.
-2. Make a cascading key attribute in the NS model for connecting the rows to their respective NS.
-3. Setup a timer system that does not allow the user to send requests to the dB after 4:00 PM
 4. find better alternatives for Supabase to host the dB
