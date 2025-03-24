@@ -4,9 +4,10 @@ from rest_framework import status
 from django.http import JsonResponse
 from django.db import connection
 from .forms import NSForm
-from .models import userProfile, formData
-from .serializers import userProfileSerializer, FormDataSerializer, userOutputSerializer
+from .models import userProfile, formData, formList
+from .serializers import userProfileSerializer, FormDataSerializer, userOutputSerializer, FormListSerializer
 from .utils import api_key_required
+import datetime
 
 def keep_alive(request):
     with connection.cursor() as cursor:
@@ -104,15 +105,45 @@ def edit(request, user_id):
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+
+def create_new_form():
+    dt = datetime.now().date()
+    form_name = "NS for "+dt.strftime("%Y-%m-%d")
+    data = {'form_name': form_name}
+    serializer = FormListSerializer(data=data)
+
+    if serializer.is_valid():
+        new_form = serializer.save()
+        return new_form
+    else:
+        raise ValueError(serializer.errors)
+    
+
 @api_key_required
 @api_view(['GET', 'POST'])
 def formUpload(request):
     if request.method == "POST":
-        serializer = FormDataSerializer(data=request.data)
+        
+        data_c = request.data.copy()
+        latest_form = formList.objects.order_by('-form_date').first()
+        today = datetime.now().date()
+        
+        if latest_form:
+            form_date = latest_form.form_date.date()  # Extract only the date part
+
+            if today == form_date:
+                data_c['NS'] = latest_form.id
+            else:
+                new_form = create_new_form()
+                data_c['NS'] = new_form.id
+        else:
+            new_form = create_new_form()
+            data_c['NS'] = new_form.id
+        
+        serializer = FormDataSerializer(data=data_c)
         if serializer.is_valid():
             serializer.save()
             return Response({"message": "Form uploaded successfully"}, status=status.HTTP_201_CREATED)
-        
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == "GET":

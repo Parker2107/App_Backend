@@ -13,10 +13,20 @@ class userProfile(models.Model):
     def __str__(self):
         return f"{self.id} - {self.name} - {self.regno}"
     
+class formList(models.Model):
+    form_name = models.TextField()
+    form_date = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.form_name
+
 class formData(models.Model):
     regno = models.CharField(max_length=9, unique=True)
     name = models.CharField(max_length=50)
     domain = models.TextField()
+    NS = models.ForeignKey(formList, on_delete=models.CASCADE, related_name="NS_form_key", default=0)
     
     def __str__(self):
         return f"{self.regno}"
+
+    

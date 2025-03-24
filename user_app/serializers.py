@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import userProfile, formData
+from .models import userProfile, formData, formList
 import os
 key = os.getenv("ADMIN_KEY", '_admin_')
 
@@ -26,4 +26,9 @@ class userProfileSerializer(serializers.ModelSerializer):
 class FormDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = formData
+        fields = '__all__'
+        
+class FormListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = formList
         fields = '__all__'
