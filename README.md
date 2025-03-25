@@ -121,3 +121,4 @@ By default, all the attendance for every person is P in the dB, **Only send the 
 
 4. find better alternatives for Supabase to host the dB
 5. Setup getNSForm function in views.py
+6. When frontend is deployed, add origin to CORS
