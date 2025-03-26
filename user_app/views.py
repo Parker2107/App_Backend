@@ -33,6 +33,7 @@ def indexAll(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@csrf_exempt
 @api_key_required
 @api_view(['GET'])
 def check(request):
