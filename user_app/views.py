@@ -35,10 +35,11 @@ def indexAll(request):
 
 @api_key_required
 @api_view(['GET'])
-def check(request,user_id):
+def check(request):
     if request.method == 'GET':
+        email = request.headers.get("email")
         try:
-            user = userProfile.objects.get(regno=user_id)
+            user = userProfile.objects.get(email=email)
         except:
             return Response({'error': 'Registration Number not found, Invalid User'}, status=status.HTTP_404_NOT_FOUND)
         serializer = userOutputSerializer(user)
