@@ -8,6 +8,7 @@ from .models import userProfile, formData, formList
 from .serializers import userProfileSerializer, FormDataSerializer, userOutputSerializer, FormListSerializer
 from .utils import api_key_required
 from datetime import datetime, time
+from django.views.decorators.csrf import csrf_exempt
 import pytz
 
 last_time = time(hour=16, minute=0, second=0)
@@ -121,7 +122,7 @@ def create_new_form():
     else:
         raise ValueError(serializer.errors)
     
-
+@csrf_exempt
 @api_key_required
 @api_view(['GET', 'POST'])
 def formUpload(request):
@@ -132,11 +133,11 @@ def formUpload(request):
         ist = pytz.timezone('Asia/Kolkata')
         time = datetime.now(tz=ist).time()
         
-        if time>last_time:
-            return Response({"message": "Deadline for applying to NS is over"}, status=status.HTTP_401_UNAUTHORIZED)
+        #if time>last_time:
+            #return Response({"message": "Deadline for applying to NS is over"}, status=status.HTTP_401_UNAUTHORIZED)
         
         if latest_form:
-            form_date = latest_form.form_date.date()  # Extract only the date part
+            form_date = latest_form.form_date.date()
 
             if today == form_date:
                 data_c['NS'] = latest_form.id
