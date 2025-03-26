@@ -69,6 +69,7 @@ def delete(request):
         userProfile.objects.all().delete()
         return Response({'message': 'All profiles deleted'}, status=status.HTTP_204_NO_CONTENT)
 
+@csrf_exempt
 @api_key_required
 @api_view(['GET', 'PUT', 'PATCH'])
 def edit(request, user_id):
