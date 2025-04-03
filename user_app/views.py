@@ -167,13 +167,22 @@ def formUpload(request):
 @api_key_required
 @api_view(['GET'])
 def getNSForm(request, name):
-    list = name.split("-")
-    x = datetime(int(list[0]), int(list[1], list[2]))
+    date_parts = name.split("-")
+    x = datetime(int(date_parts[0]), int(date_parts[1]), int(date_parts[2]))
     print(x)
-    form = formList.objects.get(form_date=x)
-    print(form)
-    id = form.id
-    formdata = formData.objects.get(NS=id)
+    l2 = str(x).split(" ")
+    forms = formList.objects.all()
+    id=-1
+    for form in forms:
+        date = str(form.form_date).split(" ")[0]
+        if date==l2[0]:
+            print(form)
+            id=form.id
+    #print(form)
+    if id==-1:
+        return Response({"error":"NS form for that date does not exist. Try Again"}, status=status.HTTP_404_NOT_FOUND)
+    
+    formdata = formData.objects.filter(NS=id)
     serializer = FormDataSerializer(formdata, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
         
