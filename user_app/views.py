@@ -164,7 +164,16 @@ def formUpload(request):
 
     return Response({"error": "Invalid request method"}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_key_required
+@api_view(['GET'])
 def getNSForm(request, name):
-    #TODO
-    return 1
+    list = name.split("-")
+    x = datetime(int(list[0]), int(list[1], list[2]))
+    print(x)
+    form = formList.objects.get(form_date=x)
+    print(form)
+    id = form.id
+    formdata = formData.objects.get(NS=id)
+    serializer = FormDataSerializer(formdata, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
         
