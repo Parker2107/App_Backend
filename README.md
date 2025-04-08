@@ -37,7 +37,10 @@ curl -X GET http://127.0.0.1:8000 -H "Content-Type: application/json"
 
 ### Check specific registration number
 
-curl -X GET http://127.0.0.1:8000/check/ **_Registration Number_** -H "Content-Type: application/json"
+curl -X GET https://ieeebackend.vercel.app/check/ \
+-H "api_key: API_KEY" \
+-H "email: EMAIL" \
+-H "content-type: application/json"
 
 ### Delete all data
 
