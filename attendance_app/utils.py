@@ -4,7 +4,7 @@ from rest_framework import status
 
 def api_key_required(view_func):
     def wrapper(request, *args, **kwargs):
-        api_key = request.headers.get("api_key")
+        api_key = request.headers.get("api_key") or request.GET.get("api_key")
         if api_key != settings.API_KEY:
             return JsonResponse({"error": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
         return view_func(request, *args, **kwargs)
