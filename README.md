@@ -76,7 +76,7 @@ curl -X GET http://127.0.0.1:8000/upload-sheet/?api_key=API_KEY&sheet_name=Works
 
 ### Upload data of all registered students in an event
 
-curl -X POST "http://127.0.0.1:8000/upload-sheet/" \
+curl -X POST http://127.0.0.1:8000/upload-sheet/ \
  -H "api_key: API_KEY" \
  -F "file=@/Users/yourname/Documents/attendance.xlsx" \
  -F "sheet_name=Spring_Seminar" \
@@ -88,7 +88,7 @@ curl -X DELETE "http://127.0.0.1:8000/delete-sheet/?api_key=API_KEY&sheet_name=E
 
 ### Edit the attendance status from an event
 
-curl -X PATCH "http://127.0.0.1:8000/api/edit-attendance/" \
+curl -X PATCH http://127.0.0.1:8000/api/edit-attendance/ \
 	-H "Content-Type: application/json" \
 	-H "api_key: API_KEY" \
 	-d '{

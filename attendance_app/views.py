@@ -55,11 +55,13 @@ def upload_sheet(request):
                 df = pd.read_excel(file, engine='openpyxl')
 
             # Ensure required columns exist
-            required_columns = ['ParticipantId', 'Participant Name', 'Session Attended (P/A)']
-            if not all(col in df.columns for col in required_columns):
-                return JsonResponse({"error": "Invalid file format. Please upload the correct Excel sheet."}, status=status.HTTP_400_BAD_REQUEST)
-
-
+            required_columns = ['ParticipantID', 'Participant Name', 'Attendance']
+            match = (df.columns == required_columns)
+            for x in match:
+                if not x:
+                    return JsonResponse({"error": "Invalid sheet format"}, status=status.HTTP_400_BAD_REQUEST)
+            
+            
             sheet_data = {"sheet_name": sheet_name, "event_date": event_date}
             sheet_serializer = SheetListSerializer(data=sheet_data)
             
@@ -72,18 +74,17 @@ def upload_sheet(request):
             df = df.rename(columns={
                 'ParticipantId': 'ParticipantId',
                 'Participant Name': 'ParticipantName',
-                'Session Attended (P/A)': 'SessionAttended'
+                'Attendance': 'SessionAttended'
             })
 
             errors = []
             valid_records = []
 
             for index, row in df.iterrows():
-                participant_id = str(row.get('ParticipantId', '')).strip()
-                participant_name = str(row.get('ParticipantName', '')).strip()
+                participant_id = str(row[1]).strip()
+                participant_name = str(row[0]).strip()
                 session_attended = 'P'
                 
-                # Validate required fields
                 if not participant_id or not participant_name:
                     errors.append(f"Missing ParticipantId or ParticipantName at row {index + 2}. Skipping entry.")
                     continue
