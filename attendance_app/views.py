@@ -1,4 +1,5 @@
 import pandas as pd
+from rest_framework.response import Response
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
@@ -25,11 +26,7 @@ def upload_sheet(request):
         attendance_records = AttendanceRecord.objects.filter(sheet=sheet)
         serializer = AttendanceRecordSerializer(attendance_records, many=True)
 
-        return JsonResponse({
-            "sheet_name": sheet_name,
-            "event_date": sheet.event_date,
-            "records": serializer.data
-        }, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     elif request.method == 'POST':
         
@@ -170,3 +167,13 @@ def update_attendance(request):
         "message": f"Attendance updated successfully. {updated_count} records modified.",
         "errors": errors
     }, status=status.HTTP_200_OK if updated_count else status.HTTP_400_BAD_REQUEST)
+
+@api_key_required
+@api_view(['GET'])
+def get_events(request):
+    if request.method=="GET":
+        events = SheetList.objects.all()
+        serialiser = SheetListSerializer(events, many=True)
+        return Response(serialiser.data, status=status.HTTP_200_OK)
+        
+    
