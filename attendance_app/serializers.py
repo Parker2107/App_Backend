@@ -4,7 +4,7 @@ from .models import SheetList, AttendanceRecord
 
 class SheetListSerializer(serializers.ModelSerializer):
     """Serializes sheet metadata (name and event date)."""
-    event_date = serializers.DateField()
+    event_date = serializers.DateTimeField()
 
     class Meta:
         model = SheetList
