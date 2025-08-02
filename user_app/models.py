@@ -9,6 +9,7 @@ class userProfile(models.Model):
     room = models.CharField(max_length=5)
     number = models.CharField(max_length=15, unique=True)
     admin = models.BooleanField(default=False)
+    user_create_datetime = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return f"{self.id} - {self.name} - {self.regno}"
