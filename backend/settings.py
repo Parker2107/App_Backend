@@ -116,14 +116,12 @@ DATABASE_URL = os.getenv('DATABASE_URL')
 API_KEY = os.getenv('API_KEY')
 
 if DATABASE_URL:
-    try:
-        print(DATABASE_URL)
-        DATABASES = {
-            'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
-        }
-    except:
-        JsonResponse({"Error": "NO DATABASE"}, status=status.HTTP_404_NOT_FOUND)
+    print(f"Using DATABASE_URL: {DATABASE_URL}")
+    DATABASES = {
+        'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
+    }
 else:
+    print("DATABASE_URL not found, using SQLite database.")
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
